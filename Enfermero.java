@@ -1,14 +1,13 @@
 public class Enfermero extends BaseTrabajador {
     private int NivelCerficacion;
     private boolean nocturno;
-    private double bono;
+    private double bono = 300;
 
 // Constructor
-    public Enfermero(int ID, String nombre, String departamento, int experiencia, double salarioBase, int NivelCerficacion, boolean nocturno, double bono) {
-        super(ID, nombre, departamento, experiencia, salarioBase);
+    public Enfermero(int ID, String nombre, String departamento, int experiencia, int NivelCerficacion, boolean nocturno) {
+        super(ID, nombre, departamento, experiencia);
         this.NivelCerficacion = NivelCerficacion;
         this.nocturno = nocturno;
-        this.bono = bono;
     }
 
     public double calculoSalario() {
@@ -17,6 +16,10 @@ public class Enfermero extends BaseTrabajador {
         } else {
             return salarioBase;
         }
+    }
+    @Override
+    public String datos(String ID) {
+        return "Enfermero [ID=" + ID + ", Nombre=" + nombre + ", Departamento=" + departamento + ", Experiencia=" + experiencia + " años" + ", Nivel de Certificación=" + this.NivelCerficacion + ", Turno Nocturno=" + this.nocturno + ", Salario Total=" + calculoSalario() + "]";
     }
 
 // Getters

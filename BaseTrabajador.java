@@ -1,19 +1,21 @@
-public class BaseTrabajador {
+public abstract class BaseTrabajador {
 // Atributos comunes para todos los trabajadores
     protected int ID;
     protected String nombre;
     protected String departamento;
     protected int experiencia;
-    protected double salarioBase;
+    protected double salarioBase = 7000; // Salario base común
 
 // Constructor
-    public BaseTrabajador(int ID, String nombre, String departamento, int experiencia, double salarioBase) {
+    public BaseTrabajador(int ID, String nombre, String departamento, int experiencia) {
         this.ID = ID;
         this.nombre = nombre;
         this.departamento = departamento;
         this.experiencia = experiencia;
-        this.salarioBase = salarioBase;
     }
+
+//método abstracto
+    public abstract String datos(String ID);
 
 //getters
     public int getID() {

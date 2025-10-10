@@ -5,8 +5,8 @@ public class DoctorGeneral extends BaseTrabajador {
     private int citasAtendidas;
 
 // Constructor
-    public DoctorGeneral(int ID, String nombre, String departamento, int experiencia, double salarioBase, String especialidad, int capacidad, double tarifaConsulta) {
-        super(ID, nombre, departamento, experiencia, salarioBase);
+    public DoctorGeneral(int ID, String nombre, String departamento, int experiencia, String especialidad, int capacidad, double tarifaConsulta) {
+        super(ID, nombre, departamento, experiencia);
         this.especialidad = especialidad;
         this.capacidad = capacidad;
         this.tarifaConsulta = tarifaConsulta;
@@ -18,6 +18,10 @@ public class DoctorGeneral extends BaseTrabajador {
 
     public void addCitasAtendidas(int citas) {
         this.citasAtendidas += citas;
+    }
+    @Override
+    public String datos(String ID) {
+        return "Doctor General [ID=" + ID + ", Nombre=" + nombre + ", Departamento=" + departamento + ", Experiencia=" + experiencia + " años" + "Especialidad=" + especialidad + ", Capacidad de Pacientes=" + capacidad + ", Tarifa por Consulta=" + tarifaConsulta + ", Citas Atendidas=" + citasAtendidas + ", Salario=" + calculoSalario() + "]";
     }
 
 // Getters
