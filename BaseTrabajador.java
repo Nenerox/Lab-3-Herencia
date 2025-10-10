@@ -14,6 +14,7 @@ public class BaseTrabajador {
         this.experiencia = experiencia;
         this.salarioBase = salarioBase;
     }
+    
 //getters
     public String getID() {
         return ID;
