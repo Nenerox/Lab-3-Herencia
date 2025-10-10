@@ -1,5 +1,5 @@
 public class Cita {
-    private String ID;
+    private int ID;
     private String paciente;
     private String medicoAsignado;
     private String fechaHora;
@@ -7,7 +7,7 @@ public class Cita {
     private String estado;
 
 // Constructor
-    public Cita(String ID, String paciente, String medicoAsignado, String fechaHora, String tipoCita, String estado) {
+    public Cita(int ID, String paciente, String medicoAsignado, String fechaHora, String tipoCita, String estado) {
         this.ID = ID;
         this.paciente = paciente;
         this.medicoAsignado = medicoAsignado;
@@ -17,7 +17,7 @@ public class Cita {
     }
 
 //getters 
-    public String getID() {
+    public int getID() {
         return ID;
     }
     public String getPaciente() {
