@@ -11,6 +11,7 @@ public class Farmaceutico extends BaseTrabajador {
         this.limite = limite;
     }
 
+    @Override
     public double calculoSalario() {
         return salarioBase + (numeroDespachos * comision);
     }
@@ -20,7 +21,7 @@ public class Farmaceutico extends BaseTrabajador {
     }
 
     @Override
-    public String datos(String ID) {
+    public String datos(int ID) {
         return "Farmaceutico [ID=" + ID + ", Nombre=" + nombre + ", Departamento=" + departamento + ", Experiencia=" + experiencia + " años" + ", Licencia de Farmacia=" + licenciaFarmacia + ", Límite de despachos por dia=" + limite + ", Número de Despachos Realizados=" + numeroDespachos + ", Comisión por Despacho=" + comision + ", Salario Total=" + calculoSalario() + "]";
     }
 

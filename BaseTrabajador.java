@@ -4,7 +4,7 @@ public abstract class BaseTrabajador {
     protected String nombre;
     protected String departamento;
     protected int experiencia;
-    protected double salarioBase = 7000; // Salario base común
+    protected double salarioBase = 10000; // Salario base común
 
 // Constructor
     public BaseTrabajador(int ID, String nombre, String departamento, int experiencia) {
@@ -15,7 +15,9 @@ public abstract class BaseTrabajador {
     }
 
 //método abstracto
-    public abstract String datos(String ID);
+    public abstract String datos(int ID);
+
+    public abstract double calculoSalario();
 
 //getters
     public int getID() {

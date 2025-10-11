@@ -11,6 +11,7 @@ public class Terapeuta extends BaseTrabajador {
         this.duracionHoras = duracion;
     }
 
+    @Override
     public double calculoSalario() {
         return salarioBase + (sesionesRealizadas * comision);
     }
@@ -19,7 +20,7 @@ public class Terapeuta extends BaseTrabajador {
         this.sesionesRealizadas += sesiones;
     }
     @Override
-    public String datos(String ID) {
+    public String datos(int ID) {
         return "Terapeuta [ID=" + ID + ", Nombre=" + nombre + ", Departamento=" + departamento + ", Experiencia=" + experiencia + " años" + ", Especialidad=" + especialidad + ", Duración Promedio de Sesión (horas)=" + duracionHoras + ", Comisión por Sesión=" + comision + ", Sesiones Realizadas=" + sesionesRealizadas + ", Salario=" + calculoSalario() + "]";
     }
 

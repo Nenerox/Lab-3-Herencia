@@ -12,6 +12,7 @@ public class DoctorGeneral extends BaseTrabajador {
         this.tarifaConsulta = tarifaConsulta;
     }
 
+    @Override
     public double calculoSalario() {
         return salarioBase + (citasAtendidas * tarifaConsulta);
     }
@@ -19,8 +20,9 @@ public class DoctorGeneral extends BaseTrabajador {
     public void addCitasAtendidas(int citas) {
         this.citasAtendidas += citas;
     }
+    
     @Override
-    public String datos(String ID) {
+    public String datos(int ID) {
         return "Doctor General [ID=" + ID + ", Nombre=" + nombre + ", Departamento=" + departamento + ", Experiencia=" + experiencia + " años" + "Especialidad=" + especialidad + ", Capacidad de Pacientes=" + capacidad + ", Tarifa por Consulta=" + tarifaConsulta + ", Citas Atendidas=" + citasAtendidas + ", Salario=" + calculoSalario() + "]";
     }
 
