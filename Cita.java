@@ -39,6 +39,9 @@ public class Cita {
     }
 
 //getters 
+    public String Datos() {
+        return "ID: " + ID + ", Paciente: " + paciente + ", Medico: " + medicoAsignado + ", Fecha y Hora: " + fechaHora + ", Tipo de Cita: " + tipoCita + ", Estado: " + estado;
+    }
     public int getID() {
         return ID;
     }
