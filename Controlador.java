@@ -29,28 +29,32 @@ public class Controlador {
     }
     
 //Metodos de operaciones del manager
-    public void BuscarDisponibles(String especialidad, LocalDateTime inicio, LocalDateTime fin){
+    public ArrayList<String> BuscarDisponibles(String especialidad, LocalDateTime inicio, LocalDateTime fin){
+        ArrayList<String> disponibles = new ArrayList<>();
         for (BaseTrabajador trabajador : trabajadores) {
             for (Cita cita : citas) {
                 if (trabajador instanceof DoctorGeneral && ((DoctorGeneral) trabajador).getEspecialidad().equals(especialidad) && cita.getFechaHora().isBefore(inicio) && cita.getFechaHora().isAfter(fin)) {
-                    System.out.println(trabajador.datos(trabajador.getID()));
+                    disponibles.add(trabajador.datos(trabajador.getID()));
                 } else if (trabajador instanceof Terapeuta && ((Terapeuta) trabajador).getEspecialidad().equals(especialidad) && cita.getFechaHora().isBefore(inicio) && cita.getFechaHora().isAfter(fin)) {
-                    System.out.println(trabajador.datos(trabajador.getID()));
+                    disponibles.add(trabajador.datos(trabajador.getID()));
                 }  
             }
         }
+        return disponibles;
     }
 
-    public void reporteDepartamento(String departamentoFiltro) {
+    public ArrayList<String> reporteDepartamento(String departamentoFiltro) {
+        ArrayList<String> salarios = new ArrayList<>();
         double total = 0.0;
         for (BaseTrabajador t : trabajadores) {
             if (t.getDepartamento().equalsIgnoreCase(departamentoFiltro)) {
                 double salario = t.calculoSalario();
                 total += salario;
-                System.out.println("- " + t.getNombre() + " Salario: $" + salario);
+                salarios.add("- " + t.getNombre() + " Salario: $" + salario);
             }
         }
-        System.out.println("Total en salarios para el departamento de " + departamentoFiltro + ": $" + total);
+        salarios.add("Total en salarios para el departamento de " + departamentoFiltro + ": $" + total);
+        return salarios;
     }
 
 
@@ -71,7 +75,8 @@ public class Controlador {
         return "Cita no encontrada.";
     }
 
-    public void reporteEficiencia(){
+    public ArrayList<String> reporteEficiencia(){
+        ArrayList<String> reporte = new ArrayList<>();
         for (BaseTrabajador t : trabajadores) {
             int citasAsignadas = 0;
             int citasRealizadas = 0;
@@ -84,32 +89,37 @@ public class Controlador {
                 }
             }
             if (citasAsignadas == 0) {
-                System.out.println("- " + t.getNombre() + " No tiene citas asignadas.");
+                reporte.add("- " + t.getNombre() + " No tiene citas asignadas.");
             } else {
                 double eficiencia = (citasRealizadas / citasAsignadas) * 100;
-                System.out.printf("- " + t.getNombre() + " Total de citas asignadas: " + citasAsignadas + " Total de citas realizadas: "+ citasRealizadas + " Eficiencia del: "+ eficiencia + "%");
+                reporte.add("- " + t.getNombre() + " Total de citas asignadas: " + citasAsignadas + " Total de citas realizadas: "+ citasRealizadas + " Eficiencia del: "+ eficiencia + "%");
             }
         }
+        return reporte;
     }
 
-    public void mostrarTrabajadores(){
+    public ArrayList<String> mostrarTrabajadores(){
+        ArrayList<String> lista = new ArrayList<>();
         for (Object elem : trabajadores) {
             BaseTrabajador p = (BaseTrabajador) elem;
-            System.out.println(p.datos(p.getID()));
+            lista.add(p.datos(p.getID()));
         }
+        return lista;
     }
 
-    public void reporteCitas(String estadoFiltro, String medicoFiltro) {
+    public ArrayList<String> reporteCitas(String estadoFiltro, String medicoFiltro) {
+        ArrayList<String> reporteCitas = new ArrayList<>();
         for (Cita c : citas) {
             boolean coincideEstado = (estadoFiltro == null) || c.getEstado().equalsIgnoreCase(estadoFiltro);
             boolean coincideMedico = (medicoFiltro == null) || c.getMedicoAsignado().equalsIgnoreCase(medicoFiltro);
             if (coincideEstado && coincideMedico) {
-                System.out.println(c.Datos());
+                reporteCitas.add(c.Datos());
             }
         }
+        return reporteCitas;
     }
 
-    public void analisisFinanciero(){
+    public String analisisFinanciero(){
         double Doctores = 0.0;
         double Enfermeros = 0.0;
         double Farmaceuticos = 0.0;
@@ -135,11 +145,11 @@ public class Controlador {
                 total += salario;
             }
         }
-        System.out.println("Total en salarios en el departamento de Doctores Generales: $" + total);
-        System.out.println("Total en salarios en el departamento de Enfermeros: $" + total);
-        System.out.println("Total en salarios en el departamento de Farmaceuticos: $" + total);
-        System.out.println("Total en salarios en el departamento de Terapeutas: $" + total);
-        System.out.println("Total en salarios en el hospital: $" + total);
+        return "Total en salarios en el departamento de Doctores Generales: $" + Doctores + "\n" +
+               "Total en salarios en el departamento de Enfermeros: $" + Enfermeros + "\n" +
+               "Total en salarios en el departamento de Farmaceuticos: $" + Farmaceuticos + "\n" +
+               "Total en salarios en el departamento de Terapeutas: $" + Terapeutas + "\n" +
+               "Total en salarios en el hospital: $" + total;
     }
 
     public void HitorialCita(int idCita) {
