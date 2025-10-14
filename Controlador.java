@@ -7,25 +7,29 @@ public class Controlador {
     int contadorCita = 1;
 
 //Metodos para crear trabajadores
-    public void CrearDoctorGeneral(String nombre, int experiencia, String especialidad, int capacidad, double tarifaConsulta) {
+    public String CrearDoctorGeneral(String nombre, int experiencia, String especialidad, int capacidad, double tarifaConsulta) {
         BaseTrabajador doctor = new DoctorGeneral(contadorID, nombre, "Doctores Generales", experiencia, especialidad, capacidad, tarifaConsulta);
         contadorID++;
         trabajadores.add(doctor);
+        return "Doctor General creado con exito. ID: " + doctor.getID();
     }
-    public void CrearEnfermero(String nombre, int experiencia, String NivelCerficacion, boolean nocturno) {
+    public String CrearEnfermero(String nombre, int experiencia, String NivelCerficacion, boolean nocturno) {
         BaseTrabajador enfermero = new Enfermero(contadorID, nombre, "Enfermeros", experiencia, NivelCerficacion, nocturno);
         contadorID++;
         trabajadores.add(enfermero);
+        return "Enfermero/a creado con exito. ID: " + enfermero.getID();
     }
-    public void CrearFarmaceutico(String nombre, int experiencia, String licenciaFarmacia, int limite) {
+    public String CrearFarmaceutico(String nombre, int experiencia, String licenciaFarmacia, int limite) {
         BaseTrabajador farmaceutico = new Farmaceutico(contadorID, nombre, "Farmaceuticos", experiencia, licenciaFarmacia, limite);
         contadorID++;
         trabajadores.add(farmaceutico);
+        return "Farmaceutico/a creado con exito. ID: " + farmaceutico.getID();
     }
-    public void CrearTerapeuta(String nombre, int experiencia, String especialidad, double duracion) {
+    public String CrearTerapeuta(String nombre, int experiencia, String especialidad, double duracion) {
         BaseTrabajador terapeuta = new Terapeuta(contadorID, nombre, "Terapeutas", experiencia, especialidad, duracion);
         contadorID++;
         trabajadores.add(terapeuta);
+        return "Terapeuta creado con exito. ID: " + terapeuta.getID();
     }
     
 //Metodos de operaciones del manager
@@ -152,21 +156,55 @@ public class Controlador {
                "Total en salarios en el hospital: $" + total;
     }
 
-    public void HitorialCita(int idCita) {
+    public ArrayList<String> HitorialCita(int idCita) {
         for (Cita c : citas) {
             if (c.getID() == idCita) {
-                c.mostrarHistorial();
+                return c.mostrarHistorial();
             }
         }
+        return new ArrayList<>(); // Retorna una lista vacía si no se encuentra la cita
     }
 
 
 //Metodos para citas
-    public void crearCita(String paciente, String medicoAsignado, LocalDateTime fechaHora, String tipoCita) {
-        Cita cita = new Cita(contadorCita, paciente, medicoAsignado, fechaHora, tipoCita, "CONFIRMADA");
+    public String crearCita(String paciente, String medicoAsignado, LocalDateTime fechaHora, String tipoCita) {
+        BaseTrabajador trabajadorAsignado = null;
+        for (BaseTrabajador t : trabajadores) {
+            if (t.getNombre().equalsIgnoreCase(medicoAsignado)) {
+                trabajadorAsignado = t;
+            }
+        }
+        if (trabajadorAsignado == null) {
+            return "No se encontró el médico con ese nombre.";
+        }
+
+        LocalDate fechaCita = fechaHora.toLocalDate();
+        int citasDelDia = 0;
+
+        for (Cita c : citas) {
+            if (c.getMedicoAsignado().equalsIgnoreCase(medicoAsignado) && c.getFechaHora().toLocalDate().isEqual(fechaCita) && !c.getEstado().equalsIgnoreCase("CANCELADA")) {
+                citasDelDia++;
+            }
+        }
+
+        if (trabajadorAsignado instanceof DoctorGeneral) {
+            DoctorGeneral doc = (DoctorGeneral) trabajadorAsignado;
+            if (citasDelDia >= doc.getCapacidad()) {
+                return "El doctor ha alcanzado su capacidad máxima de citas diarias (" + doc.getCapacidad() + ").";
+            }
+        } else if (trabajadorAsignado instanceof Farmaceutico) {
+            Farmaceutico far = (Farmaceutico) trabajadorAsignado;
+            if (citasDelDia >= far.getLimite()) {
+                return "El farmacéutico ha alcanzado su capacidad máxima de despachos diarios (" + far.getLimite() + ").";
+            }
+        }
+
+        Cita nuevaCita = new Cita(contadorCita, paciente, medicoAsignado, fechaHora, tipoCita, "CONFIRMADA");
+        citas.add(nuevaCita);
         contadorCita++;
-        citas.add(cita);
+        return "Cita creada con éxito. ID: " + nuevaCita.getID();
     }
+
 
     public String reagendarCita(int idCita, LocalDateTime nuevaFecha) {
         for (Cita c : citas) {
@@ -189,7 +227,7 @@ public class Controlador {
             if (c.getID() == idCita) {
                 for (Cita otra : citas) {
                         if (otra.getID() != c.getID() && otra.getMedicoAsignado().equals(nuevoMedico) && otra.getFechaHora().isEqual(c.getFechaHora()) && !otra.getEstado().equals("CANCELADA")) {
-                            return "Fecha no disponible, intente otra fecha o medico.";
+                            return "medico no disponible, intente otro medico.";
                     }
                 }
                 c.setMedicoAsignado(nuevoMedico);
@@ -200,7 +238,7 @@ public class Controlador {
         return "Cita no encontrada.";
     }
 
-    public void revisarEstadosCitas() {
+    public void actualizarEstadosCitas() {
         LocalDateTime ahora = LocalDateTime.now();
         Duration duracionCita = Duration.ofHours(1); // Duración maxima de 1 hora
 
@@ -231,11 +269,13 @@ public class Controlador {
         }
     }
 
-        public void CancelarCita(int idCita) {
+        public String CancelarCita(int idCita) {
         for (Cita c : citas) {
             if (c.getID() == idCita) {
                 c.setEstado("CANCELADA");
+                return "Cita cancelada con exito.";
             }
         }
+        return "Cita no encontrada.";
     }
 }

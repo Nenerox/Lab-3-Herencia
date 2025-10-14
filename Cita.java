@@ -32,10 +32,8 @@ public class Cita {
         this.medicoAsignado = medicoAsignado;
         historial.add(LocalDateTime.now() + "- Medico asignado cambiado a: " + medicoAsignado);
     }
-    public void mostrarHistorial() {
-        for (String h : historial) {
-            System.out.println(h);
-        }
+    public ArrayList<String> mostrarHistorial() {
+        return historial;
     }
 
 //getters 
