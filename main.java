@@ -162,7 +162,7 @@ public class main {
                         }
                         break;
                     case 6:
-                        System.out.println("Ingrese el estado de la cita a filtrar (Programada, Completada, Cancelada, En_Progreso o deje en blanco para omitir):");
+                        System.out.println("Ingrese el estado de la cita a filtrar (PROGRAMADA, CONFIRMADA, EN_PROGRESO, COMPLETADA, CANCELADA, REAGENDADA o deje en blanco para omitir):");
                         String estadoFiltro = scanner.nextLine();
                         System.out.println("Ingrese el nombre del médico a filtrar (o deje en blanco para omitir):");
                         String medicoFiltro = scanner.nextLine();
