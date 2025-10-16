@@ -198,6 +198,14 @@ public class Controlador {
                 return "El farmacéutico ha alcanzado su capacidad máxima de despachos diarios (" + far.getLimite() + ").";
             }
         }
+        for (Cita c : citas) {
+            if (c.getMedicoAsignado().equalsIgnoreCase(medicoAsignado) && c.getFechaHora().toLocalDate().isEqual(fechaCita) && !c.getEstado().equalsIgnoreCase("CANCELADA")) {
+                Cita nuevaCita = new Cita(contadorCita, paciente, medicoAsignado, fechaHora, tipoCita, "CONFIRMADA");
+                citas.add(nuevaCita);
+                contadorCita++;
+                return "La fecha y hora de la cita ya estan ocupadas. Por favor reagendar la cita. ID: " + nuevaCita.getID();
+            }
+        }
 
         Cita nuevaCita = new Cita(contadorCita, paciente, medicoAsignado, fechaHora, tipoCita, "CONFIRMADA");
         citas.add(nuevaCita);
